@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <logger name="controller" level="WARN" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <!--
+        destination 是 logstash 服务的 host:port，
+        相当于和 logstash 建立了管道，将日志数据定向传输到 logstash
+        -->
+        <destination>127.0.0.1:9250</destination>
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+    <logger name="io.github.dunwu.spring" level="INFO" additivity="false">
+        <appender-ref ref="LOGSTASH"/>
+    </logger>
+</configuration>
+
